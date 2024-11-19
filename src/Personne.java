@@ -1,5 +1,9 @@
 import java.sql.*;
 import java.util.ArrayList;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Personne {
     private int id;
@@ -10,6 +14,16 @@ public class Personne {
         this.id = -1;
         this.nom = nom;
         this.prenom = prenom;
+    }
+
+    public Personne findById(int id) throws SQLException {
+        Connection connection = DBConnection.getConnection();
+        String requete = "SELECT * FROM Personne WHERE id = ?";
+        PreparedStatement prep = connection.prepareStatement(requete);
+        prep.setInt(1, 2);
+        ResultSet rs = prep.executeQuery();
+        Personne res = new Personne(nom = rs.getString("NOM"), rs.getString("PRENOM"));
+        return res;
     }
 
     public int getId() {
