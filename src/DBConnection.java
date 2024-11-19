@@ -4,14 +4,12 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class DBConnection {
-    private static DBConnection instance = null;
-    private Connection connection;
-
+    private static Connection connection;
     private final String userName = "root";
     private final String password = "";
     private final String serverName = "127.0.0.1";
     private final String portNumber = "8888";
-    private final String dbName = "dbpersonne";
+    private String dbName = "testpersonne";
 
     private DBConnection() {
         try {
@@ -31,11 +29,16 @@ public class DBConnection {
         }
     }
 
+    public void setNomDb(String nom){
+        this.dbName = nom;
+    }
+
+
 
     public static Connection getConnection() {
-        if (instance == null) {
-            instance = new DBConnection();
+        if (connection == null) {
+            new DBConnection();
         }
-        return instance.connection;
+        return connection;
     }
 }
