@@ -1,3 +1,6 @@
+import java.sql.*;
+import java.util.ArrayList;
+
 public class Personne {
     private int id;
     private String nom;
@@ -29,4 +32,29 @@ public class Personne {
                 ", prenom='" + prenom + '\'' +
                 '}';
     }
+    public static ArrayList<Personne> findAll() throws SQLException {
+        ArrayList<Personne> personnes = new ArrayList<>();
+        Connection connection = DBConnection.getConnection();
+
+        String SQLPrep = "SELECT * FROM Personne";
+        Statement stmt = connection.createStatement();
+        ResultSet rs = stmt.executeQuery(SQLPrep);
+
+        // Parcourir les résultats
+        while (rs.next()) {
+            int id = rs.getInt("ID");
+            String nom = rs.getString("NOM");
+            String prenom = rs.getString("PRENOM");
+
+            Personne personne = new Personne(nom, prenom);
+
+            personnes.add(personne);
+        }
+
+        rs.close();
+        stmt.close();
+
+        return personnes;
+    }
+
 }
