@@ -16,14 +16,50 @@ public class Personne {
         this.prenom = prenom;
     }
 
-    public Personne findById(int id) throws SQLException {
+    public static Personne findById(int id) throws SQLException {
         Connection connection = DBConnection.getConnection();
-        String requete = "SELECT * FROM Personne WHERE id = ?";
-        PreparedStatement prep = connection.prepareStatement(requete);
-        prep.setInt(1, 2);
-        ResultSet rs = prep.executeQuery();
-        Personne res = new Personne(nom = rs.getString("NOM"), rs.getString("PRENOM"));
-        return res;
+        String requete = "SELECT * FROM Personne WHERE ID = ?";
+        PreparedStatement prep = null;
+        ResultSet rs = null;
+        Personne personne = null;
+        try {
+            prep = connection.prepareStatement(requete);
+            prep.setInt(1, id);
+
+            rs = prep.executeQuery();
+            if (rs.next()) {
+                String nom = rs.getString("NOM");
+                String prenom = rs.getString("PRENOM");
+                personne = new Personne(nom, prenom);
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return personne;
+    }
+
+    public static Personne findByName(String name) throws SQLException {
+        Connection connection = DBConnection.getConnection();
+        String requete = "SELECT * FROM Personne WHERE nom = ?";
+        PreparedStatement prep = null;
+        ResultSet rs = null;
+        Personne personne = null;
+        try {
+            prep = connection.prepareStatement(requete);
+            prep.setString(1, name);
+
+            rs = prep.executeQuery();
+            if (rs.next()) {
+                String nom = rs.getString("NOM");
+                String prenom = rs.getString("PRENOM");
+                personne = new Personne(nom, prenom);
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return personne;
     }
 
     public int getId() {
@@ -54,7 +90,6 @@ public class Personne {
         Statement stmt = connection.createStatement();
         ResultSet rs = stmt.executeQuery(SQLPrep);
 
-        // Parcourir les résultats
         while (rs.next()) {
             int id = rs.getInt("ID");
             String nom = rs.getString("NOM");

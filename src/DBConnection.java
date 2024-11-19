@@ -9,7 +9,7 @@ public class DBConnection {
     private final String password = "";
     private final String serverName = "127.0.0.1";
     private final String portNumber = "8888";
-    private String dbName = "testpersonne";
+    private static String dbName = "testpersonne";
 
     private DBConnection() {
         try {
@@ -29,8 +29,8 @@ public class DBConnection {
         }
     }
 
-    public void setNomDb(String nom){
-        this.dbName = nom;
+    public static void setNomDb(String nom){
+        dbName = nom;
     }
 
 
