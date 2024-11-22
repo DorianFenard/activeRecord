@@ -1,4 +1,8 @@
+package activeRecord;
+
+import activeRecord.DBConnection;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -53,8 +57,8 @@ public class TestFilm {
         try {
             Film film = Film.findById(1);
             assertNotNull(film);
-            assertEquals("Arche perdue", film.getTitre());
-            assertEquals("Spielberg", film.getRealisateur().getNom());
+            Assertions.assertEquals("Arche perdue", film.getTitre());
+            Assertions.assertEquals("Spielberg", film.getRealisateur().getNom());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -74,9 +78,9 @@ public class TestFilm {
     public void testFindByRealisateur() throws SQLException {
         Personne personne = Personne.findById(1);
         ArrayList<Film> films = Film.findByRealisateur(personne);
-        assertEquals("Arche perdue",films.get(0).getTitre());
-        assertEquals("Temple Maudit",films.get(1).getTitre());
-        assertEquals(1,films.get(0).getId());
-        assertEquals(3,films.get(1).getId());
+        Assertions.assertEquals("Arche perdue",films.get(0).getTitre());
+        Assertions.assertEquals("Temple Maudit",films.get(1).getTitre());
+        Assertions.assertEquals(1,films.get(0).getId());
+        Assertions.assertEquals(3,films.get(1).getId());
     }
 }
