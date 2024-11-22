@@ -1,5 +1,6 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Properties;
 
@@ -10,6 +11,7 @@ public class DBConnection {
     private final String serverName = "127.0.0.1";
     private final String portNumber = "8888";
     private static String dbName = "testpersonne";
+
 
     private DBConnection() {
         try {
@@ -29,13 +31,14 @@ public class DBConnection {
         }
     }
 
-    public static void setNomDb(String nom){
+    public synchronized static void setNomDb(String nom){
         dbName = nom;
+        new DBConnection();
     }
 
 
 
-    public static Connection getConnection() {
+    public synchronized static Connection getConnection() {
         if (connection == null) {
             new DBConnection();
         }
